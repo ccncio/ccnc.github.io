@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCNC.io - Terminal</title>
-    <link rel="stylesheet" href="style.css">
+    <title>CCNC Terminal Interface</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="terminal">
+        <div id="title-bar">CCNC.io</div>
         <div id="output"></div>
-        <div class="input-line">
-            <span class="prompt">></span>
-            <input type="text" id="commandInput" autofocus>
+        <div id="input-line">
+            <span id="prompt">>_</span>
+            <span id="user-input" class="blinking-cursor"></span>
         </div>
     </div>
+    <audio id="glitch-sound" src="https://freesound.org/data/previews/273/273549_5121236-lq.mp3"></audio>
+    <audio id="error-sound" src="https://freesound.org/data/previews/209/209578_2908035-lq.mp3"></audio>
+    <audio id="malware-sound" src="https://freesound.org/data/previews/207/207846_160456-lq.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>
-
