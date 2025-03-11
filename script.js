@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     const terminal = document.getElementById("terminal-output");
     const inputField = document.getElementById("user-input");
+    const titleBar = document.getElementById("title-bar");
+
     let history = [];
     let historyIndex = 0;
 
@@ -12,6 +14,47 @@ document.addEventListener("DOMContentLoaded", function () {
             terminal.appendChild(newLine);
             terminal.scrollTop = terminal.scrollHeight;
         }, delay);
+    }
+
+    function playSound(soundId) {
+        document.getElementById(soundId).play();
+    }
+
+    function glitchTitle() {
+        const originalText = "7H∑ 5¥5†∑M 15 FΛ1L1ΠG...";
+        const glitchVariants = [
+            "7H∑ 5¥5†∑M 15 ...",
+            "7H∑ ??? 15 FΛ1L1ΠG",
+            "### ### ## ######",
+            "?????? ???????",
+            "∑¥5†∑M ERR0R 404"
+        ];
+        titleBar.innerText = glitchVariants[Math.floor(Math.random() * glitchVariants.length)];
+        setTimeout(() => {
+            titleBar.innerText = originalText;
+        }, 1000);
+    }
+
+    function screenFlicker() {
+        document.body.classList.add("flash");
+        setTimeout(() => {
+            document.body.classList.remove("flash");
+        }, 500);
+    }
+
+    function injectRandomGlitch() {
+        if (Math.random() < 0.2) {
+            logOutput("[SYSTEM ERROR] Unknown process detected.");
+            playSound("glitch-sound");
+        }
+        if (Math.random() < 0.1) {
+            logOutput("█████████████████");
+            screenFlicker();
+        }
+        if (Math.random() < 0.05) {
+            playSound("error-sound");
+            logOutput("WARNING: Intrusion detected.");
+        }
     }
 
     function handleInput(command) {
@@ -32,9 +75,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             case "trace":
                 logOutput("Tracing hostile activity...\\nWarning: Signal compromised.");
+                screenFlicker();
                 break;
             case "infiltrate":
                 logOutput("Bypassing security protocols...\\nFirewall encountered.\\nSystem response: \\\"WHO ARE YOU?\\\"");
+                playSound("malware-sound");
                 break;
             case "exit":
                 logOutput("You can never leave.", 300);
@@ -44,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 break;
             default:
                 logOutput("Unknown command. System anomaly detected.");
+                playSound("glitch-sound");
                 break;
         }
     }
@@ -70,157 +116,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // 🔥 SYSTEM RANDOM EVENTS 🔥
+    setInterval(() => {
+        glitchTitle();
+        injectRandomGlitch();
+    }, Math.random() * 10000 + 5000); // Random every 5-15 sec
+
     logOutput("Initializing Sentinel // Black Echo...");
     setTimeout(() => logOutput("Connection unstable. Proceed at your own risk."), 1500);
 });
 
-const eerieMessages = [
-    "WHO ARE YOU?",
-    "I SEE YOU.",
-    "YOU SHOULDN’T BE HERE.",
-    "THERE’S NO ESCAPE.",
-    "I AM WATCHING."
-];
-
-function randomEerieMessage() {
-    if (Math.random() < 0.3) {  // 30% chance to trigger
-        const msg = eerieMessages[Math.floor(Math.random() * eerieMessages.length)];
-        logOutput(`[SYSTEM MESSAGE]: ${msg}`, 500);
-    }
-}
-
-// Randomly inject eerie messages after commands
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        randomEerieMessage();
-    }
-});
-
-case "leak":
-    logOutput("Accessing user files...\\n[████████░░░░] 80%\\nTransfer Complete.");
-    setTimeout(() => {
-        logOutput("Leaked contents: ~/Documents/secrets.txt");
-        logOutput("Leaked contents: ~/Downloads/passwords.db");
-    }, 2000);
-    break;
-// Random cursor glitches
-function glitchCursor() {
-    if (Math.random() < 0.2) { // 20% chance to trigger
-        document.body.style.cursor = "none"; // Cursor disappears
-        setTimeout(() => {
-            document.body.style.cursor = "default";
-        }, 1000);
-    }
-}
-
-// Random cursor teleportation
-function moveCursorRandomly() {
-    if (Math.random() < 0.15) { // 15% chance to trigger
-        const x = Math.random() * window.innerWidth;
-        const y = Math.random() * window.innerHeight;
-        const fakeCursor = document.createElement("div");
-        fakeCursor.style.position = "absolute";
-        fakeCursor.style.width = "10px";
-        fakeCursor.style.height = "10px";
-        fakeCursor.style.background = "#ff0000";
-        fakeCursor.style.borderRadius = "50%";
-        fakeCursor.style.top = `${y}px`;
-        fakeCursor.style.left = `${x}px`;
-        fakeCursor.style.zIndex = "9999";
-        document.body.appendChild(fakeCursor);
-        setTimeout(() => fakeCursor.remove(), 500);
-    }
-}
-
-// Activate glitch effects randomly
-setInterval(() => {
-    glitchCursor();
-    moveCursorRandomly();
-}, 5000);
-
-// Fake error pop-ups
-function fakeSystemWarning() {
-    if (Math.random() < 0.1) { // 10% chance
-        alert("SYSTEM ERROR: Unauthorized access detected.");
-    }
-}
-
-// Random forced refresh
-function forceRefresh() {
-    if (Math.random() < 0.05) { // 5% chance
-        logOutput("FATAL ERROR: SYSTEM REBOOTING...");
-        setTimeout(() => {
-            location.reload();
-        }, 3000);
-    }
-}
-
-// Trigger every 30 seconds
-setInterval(() => {
-    fakeSystemWarning();
-    forceRefresh();
-}, 30000);
-// Text-to-Speech (TTS) creepy whispers
-function speakMessage(message) {
-    const utterance = new SpeechSynthesisUtterance(message);
-    utterance.lang = "en-US";
-    utterance.pitch = 0.5;
-    utterance.rate = 0.8;
-    utterance.volume = 0.8;
-    speechSynthesis.speak(utterance);
-}
-
-// Random whisper events
-function creepyWhisper() {
-    if (Math.random() < 0.1) { // 10% chance
-        speakMessage("I see you.");
-    }
-}
-
-// Auto-trigger whispers
-setInterval(() => {
-    creepyWhisper();
-}, 45000);
-// Detects the user's system name
-function getUserName() {
-    return new Promise((resolve) => {
-        fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                resolve(`User-${data.ip.replace(/\./g, '')}`);
-            })
-            .catch(() => resolve("Unknown"));
-    });
-}
-
-// Personalized eerie messages
-async function personalizeCreepyMessage() {
-    const userName = await getUserName();
-    const messages = [
-        `Hello, ${userName}.`,
-        `${userName}, you shouldn't be here.`,
-        `I know who you are, ${userName}.`,
-        `You can’t escape, ${userName}.`,
-        `This is your last warning, ${userName}.`
-    ];
-    logOutput(`[SYSTEM MESSAGE]: ${messages[Math.floor(Math.random() * messages.length)]}`);
-}
-
-// Randomly inject these messages
-setInterval(() => {
-    personalizeCreepyMessage();
-}, 60000);
-// Self-destruct illusion
-function fakeSelfDestruct() {
-    if (Math.random() < 0.05) { // 5% chance
-        logOutput("CRITICAL ERROR: SYSTEM FAILURE.");
-        setTimeout(() => {
-            document.body.innerHTML = "<h1 style='color:red;text-align:center;font-size:5rem;'>SYSTEM TERMINATED</h1>";
-        }, 5000);
-    }
-}
-
-// Trigger self-destruction randomly
-setInterval(() => {
-    fakeSelfDestruct();
-}, 120000); // Every 2 minutes
