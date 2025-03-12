@@ -10,18 +10,6 @@ body {
     overflow: hidden;
 }
 
-@keyframes glitch {
-    0% { background-color: black; }
-    25% { background-color: red; }
-    50% { background-color: black; }
-    75% { background-color: red; }
-    100% { background-color: black; }
-}
-
-.flash {
-    animation: glitch 0.1s steps(2, end) infinite;
-
-
 #terminal-container {
     width: 90%;
     max-width: 800px;
@@ -73,3 +61,45 @@ body {
     50% { opacity: 0; }
 }
 
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.game-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #00ff00;
+}
+
+.game-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-item {
+    padding: 10px;
+    border: 2px solid #00ff00;
+    color: #00ff00;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s;
+}
+
+.game-item:hover {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.flash {
+    animation: flash 0.5s;
+}
+
+@keyframes flash {
+    0%, 100% { background-color: #000; }
+    50% { background-color: #fff; }
+}
