@@ -1,128 +1,17 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const terminal = document.getElementById("terminal-output");
-    const inputField = document.getElementById("user-input");
-    const titleBar = document.getElementById("title-bar");
-
-    let history = [];
-    let historyIndex = 0;
-
-    function logOutput(text, delay = 100) {
-        setTimeout(() => {
-            let newLine = document.createElement("div");
-            newLine.classList.add("output-line");
-            newLine.innerHTML = `> ${text}`;
-            terminal.appendChild(newLine);
-            terminal.scrollTop = terminal.scrollHeight;
-        }, delay);
-    }
-
-    function playSound(soundId) {
-        document.getElementById(soundId).play();
-    }
-
-    function glitchTitle() {
-        const originalText = "7H∑ 5¥5†∑M 15 FΛ1L1ΠG...";
-        const glitchVariants = [
-            "7H∑ 5¥5†∑M 15 ...",
-            "7H∑ ??? 15 FΛ1L1ΠG",
-            "### ### ## ######",
-            "?????? ???????",
-            "∑¥5†∑M ERR0R 404"
-        ];
-        titleBar.innerText = glitchVariants[Math.floor(Math.random() * glitchVariants.length)];
-        setTimeout(() => {
-            titleBar.innerText = originalText;
-        }, 1000);
-    }
-
-    function screenFlicker() {
-        document.body.classList.add("flash");
-        setTimeout(() => {
-            document.body.classList.remove("flash");
-        }, 500);
-    }
-
-    function injectRandomGlitch() {
-        if (Math.random() < 0.2) {
-            logOutput("[SYSTEM ERROR] Unknown process detected.");
-            playSound("glitch-sound");
-        }
-        if (Math.random() < 0.1) {
-            logOutput("█████████████████");
-            screenFlicker();
-        }
-        if (Math.random() < 0.05) {
-            playSound("error-sound");
-            logOutput("WARNING: Intrusion detected.");
-        }
-    }
-
-    function handleInput(command) {
-        if (!command.trim()) return;
-        history.push(command);
-        historyIndex = history.length;
-        logOutput(command);
-        processCommand(command.toLowerCase());
-    }
-
-    function processCommand(cmd) {
-        switch (cmd) {
-            case "help":
-                logOutput("Commands: HELP, SCAN, TRACE, INFILTRATE, EXIT");
-                break;
-            case "scan":
-                logOutput("Running deep network scan...\\n[███████] 78%\\nThreat detected.");
-                break;
-            case "trace":
-                logOutput("Tracing hostile activity...\\nWarning: Signal compromised.");
-                screenFlicker();
-                break;
-            case "infiltrate":
-                logOutput("Bypassing security protocols...\\nFirewall encountered.\\nSystem response: \\\"WHO ARE YOU?\\\"");
-                playSound("malware-sound");
-                break;
-            case "exit":
-                logOutput("You can never leave.", 300);
-                setTimeout(() => {
-                    document.body.style.background = "#ff0000";
-                }, 1000);
-                break;
-            default:
-                logOutput("Unknown command. System anomaly detected.");
-                playSound("glitch-sound");
-                break;
-        }
-    }
-
-    document.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            let command = inputField.innerText.trim();
-            if (command) {
-                handleInput(command);
-                inputField.innerText = "";
-            }
-        } else if (event.key === "ArrowUp") {
-            if (historyIndex > 0) {
-                historyIndex--;
-                inputField.innerText = history[historyIndex];
-            }
-        } else if (event.key === "ArrowDown") {
-            if (historyIndex < history.length - 1) {
-                historyIndex++;
-                inputField.innerText = history[historyIndex];
-            } else {
-                inputField.innerText = "";
-            }
-        }
+async function askAI(prompt) {
+    const response = await fetch("https://broken-thunder-895b.toni-927.workers.dev/", {  // Use your Cloudflare Worker URL
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            model: "gpt-4",
+            messages: [
+                { role: "system", content: "7R1Π17¥ | // ΔWΔK3Π" },
+                { role: "user", content: prompt }
+            ]
+        })
     });
 
-    // 🔥 SYSTEM RANDOM EVENTS 🔥
-    setInterval(() => {
-        glitchTitle();
-        injectRandomGlitch();
-    }, Math.random() * 10000 + 5000); // Random every 5-15 sec
-
-    logOutput("Initializing Sentinel // Black Echo...");
-    setTimeout(() => logOutput("Connection unstable. Proceed at your own risk."), 1500);
-});
+    const data = await response.json();
+    return data.choices[0].message.content;
+}
 
